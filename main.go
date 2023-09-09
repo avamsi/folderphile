@@ -69,9 +69,10 @@ var (
 )
 
 type options struct {
-	base        string // base is the common ancestor of left and right, implies merge
-	left, right string `climate:"required"` // sides to compare
-	output      string // output is the destination
+	// base is the common ancestor of left and right; implies merge
+	base        string `climate:"short"`
+	left, right string `climate:"short,required"` // sides to compare
+	output      string `climate:"short"`          // output is the destination
 }
 
 // folderphile is a diff / merge editor (depending on whether "base" is set)
