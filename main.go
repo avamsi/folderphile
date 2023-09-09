@@ -71,7 +71,7 @@ var (
 type options struct {
 	// base is the common ancestor of left and right; implies merge
 	base        string `climate:"short"`
-	left, right string `climate:"short,required"` // sides to compare
+	left, right string `climate:"short,required"` // side to compare
 	output      string `climate:"short"`          // output is the destination
 }
 
