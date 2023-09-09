@@ -27,7 +27,6 @@ type model struct {
 	files  []file
 	cursor int
 	editor editor
-
 	// model operates in two modes: normal and quit.
 	// In normal mode, the user can navigate between and edit files, and quit.
 	// In the quit mode, the user is prompted to save before quitMode.
@@ -75,20 +74,20 @@ func (m model) View() string {
 		if i == m.cursor {
 			cursor = '*'
 		}
-		content := '?'
+		state := '?'
 		switch f.state {
 		case fileUnedited:
-			content = ' '
+			state = ' '
 		case fileSameAsBase:
-			content = 'B'
+			state = 'B'
 		case fileSameAsLeft:
-			content = 'L'
+			state = 'L'
 		case fileSameAsRight:
-			content = 'R'
+			state = 'R'
 		case fileEditedOther:
-			content = 'E'
+			state = 'E'
 		}
-		fmt.Fprintf(&b, "%c [%c] %s\n", cursor, content, f.name)
+		fmt.Fprintf(&b, "%c [%c] %s\n", cursor, state, f.name)
 	}
 	var (
 		h      = help.New()

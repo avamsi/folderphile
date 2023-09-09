@@ -49,8 +49,8 @@ func newFile(base, left, right, output, name string) file {
 		f.output = filepath.Join(output, name)
 		f.initialContent = readFile(f.output)
 	} else {
-		// Right is assumed to be the editable side when output is not
-		// explicitly specified (diff mode, for example).
+		// Assumed to be a 2-way diff, where right is the editable side.
+		check.Truef(base == "", "base is not empty (%q) in a 2-way diff", base)
 		f.output = f.right
 		f.initialContent = f.rightContent
 	}
@@ -65,8 +65,8 @@ func (f *file) updateState() {
 		f.state = fileSameAsLeft
 	case bytes.Equal(content, f.rightContent):
 		f.state = fileSameAsRight
-	// Same as base is not as likely as others, check last.
-	case bytes.Equal(content, f.baseContent):
+	// Same-as-base is not as likely as others, check last.
+	case f.base != "" && bytes.Equal(content, f.baseContent):
 		f.state = fileSameAsBase
 	default:
 		f.state = fileEditedOther
