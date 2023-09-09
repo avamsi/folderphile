@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/avamsi/climate v0.0.0-20230904174558-c5f7a7a25c02
+	github.com/avamsi/climate/cmd/climate v0.0.0-20230904174558-c5f7a7a25c02
 	github.com/avamsi/ergo v0.0.0-20230831040508-becd109c0529
 	github.com/charmbracelet/bubbles v0.16.1
 	github.com/charmbracelet/bubbletea v0.24.2
@@ -32,4 +33,5 @@ require (
 	golang.org/x/sys v0.12.0 // indirect
 	golang.org/x/term v0.12.0 // indirect
 	golang.org/x/text v0.13.0 // indirect
+	golang.org/x/tools v0.13.0 // indirect
 )

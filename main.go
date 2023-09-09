@@ -5,6 +5,8 @@ import (
 	"os"
 	"os/exec"
 
+	_ "embed"
+
 	"github.com/avamsi/climate"
 	"github.com/avamsi/ergo/check"
 )
@@ -67,11 +69,13 @@ var (
 )
 
 type options struct {
-	base        string
-	left, right string `climate:"required"`
-	output      string
+	base        string // base is the common ancestor of left and right, implies merge
+	left, right string `climate:"required"` // sides to compare
+	output      string // output is the destination
 }
 
+// folderphile is a diff / merge editor (depending on whether "base" is set)
+// that (flat) compares two folders ("left" and "right").
 func folderphile(opts *options) error {
 	var (
 		base string
@@ -104,6 +108,10 @@ func folderphile(opts *options) error {
 	return climate.ErrExit(1)
 }
 
+//go:generate go run github.com/avamsi/climate/cmd/climate --out=md.climate
+//go:embed md.climate
+var md []byte
+
 func main() {
-	os.Exit(climate.Run(climate.Func(folderphile)))
+	os.Exit(climate.Run(climate.Func(folderphile), climate.Metadata(md)))
 }
