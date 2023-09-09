@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"os"
 	"os/exec"
 
@@ -65,62 +66,44 @@ var (
 	}
 )
 
-type folderphile struct{}
-
-type diffOptions struct {
-	left, right string
+type options struct {
+	base        string
+	left, right string `climate:"required"`
+	output      string
 }
 
-func (f *folderphile) Diff(opts *diffOptions) error {
+func folderphile(opts *options) error {
+	var (
+		base string
+		e    = vsCodeMerge
+	)
+	switch {
+	case opts.base == "" && opts.output == "":
+		// Assumed to be a 2-way diff.
+		e = vsCodeDiff
+	case opts.base == "" && opts.output != "":
+		// Assumed to be a 3-way diff, where right is the base.
+		base = opts.right
+	case opts.base != "" && opts.output == "":
+		err := errors.New(`required flag "output" not set (required with "base")`)
+		return climate.ErrUsage(err)
+	case opts.base != "" && opts.output != "":
+		// Assumed to be a merge (since both base and output are not empty).
+		base = opts.base
+	}
 	var (
 		names = dedupeInOrder(fileNames(opts.left), fileNames(opts.right))
 		files = make([]file, 0, len(names))
 	)
 	for _, name := range names {
-		files = append(files, newFile("", opts.left, opts.right, "", name))
+		files = append(files, newFile(base, opts.left, opts.right, opts.output, name))
 	}
-	if tuiEditFiles(files, vsCodeDiff) {
-		return nil
-	}
-	return climate.ErrExit(1)
-}
-
-type diff3Options struct {
-	left, right, output string
-}
-
-func (f *folderphile) Diff3(opts *diff3Options) error {
-	var (
-		names = dedupeInOrder(fileNames(opts.left), fileNames(opts.right))
-		files = make([]file, 0, len(names))
-	)
-	for _, name := range names {
-		files = append(files, newFile(opts.right, opts.left, opts.right, opts.output, name))
-	}
-	if tuiEditFiles(files, vsCodeMerge) {
-		return nil
-	}
-	return climate.ErrExit(1)
-}
-
-type mergeOptions struct {
-	base, left, right, output string
-}
-
-func (f *folderphile) Merge(opts *mergeOptions) error {
-	var (
-		names = dedupeInOrder(fileNames(opts.left), fileNames(opts.right))
-		files = make([]file, 0, len(names))
-	)
-	for _, name := range names {
-		files = append(files, newFile(opts.base, opts.left, opts.right, opts.output, name))
-	}
-	if tuiEditFiles(files, vsCodeMerge) {
+	if tuiEditFiles(files, e) {
 		return nil
 	}
 	return climate.ErrExit(1)
 }
 
 func main() {
-	os.Exit(climate.Run(climate.Struct[folderphile]()))
+	os.Exit(climate.Run(climate.Func(folderphile)))
 }
