@@ -72,10 +72,3 @@ func (f *file) updateState() {
 		f.state = fileEditedOther
 	}
 }
-
-type editor func(f *file)
-
-func (e editor) edit(f *file) {
-	e(f)
-	f.updateState()
-}

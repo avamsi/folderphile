@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os/exec"
 	"strings"
 
 	"github.com/avamsi/ergo/check"
@@ -11,6 +12,16 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 )
+
+type editor func(f *file) *exec.Cmd
+
+func (e editor) edit(f *file) tea.Cmd {
+	return tea.ExecProcess(e(f), func(err error) tea.Msg {
+		check.Nil(err)
+		f.updateState()
+		return nil
+	})
+}
 
 type model struct {
 	files  []file
@@ -122,7 +133,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.KeyMsg:
 		switch {
 		case key.Matches(msg, keyMap.edit):
-			m.editor.edit(&m.files[m.cursor])
+			cmd := m.editor.edit(&m.files[m.cursor])
+			return m, cmd
 		case key.Matches(msg, keyMap.down):
 			m.cursor = (m.cursor + 1) % len(m.files)
 		case key.Matches(msg, keyMap.up):
