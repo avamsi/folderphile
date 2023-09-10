@@ -13,12 +13,12 @@ import (
 	"github.com/avamsi/ergo/check"
 )
 
-func fileRelPaths(dir string) (paths []string) {
+func fileRelpaths(dir string) (paths []string) {
 	walk := func(path string, d fs.DirEntry, err error) error {
 		if err != nil || d.IsDir() {
 			return err
 		}
-		paths = append(paths, path)
+		paths = append(paths, check.Ok(filepath.Rel(dir, path)))
 		return nil
 	}
 	check.Nil(filepath.WalkDir(dir, walk))
@@ -100,11 +100,11 @@ func folderphile(opts *options) error {
 		base = opts.base
 	}
 	var (
-		paths = dedupeInOrder(fileRelPaths(opts.left), fileRelPaths(opts.right))
+		paths = dedupeInOrder(fileRelpaths(opts.left), fileRelpaths(opts.right))
 		files = make([]file, 0, len(paths))
 	)
-	for _, relpath := range paths {
-		files = append(files, newFile(base, opts.left, opts.right, opts.output, relpath))
+	for _, rel := range paths {
+		files = append(files, newFile(base, opts.left, opts.right, opts.output, rel))
 	}
 	if tuiEditFiles(files, e) {
 		return nil
