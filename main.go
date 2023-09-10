@@ -56,17 +56,11 @@ func dedupeInOrder(s1, s2 []string) []string {
 
 var (
 	vsCodeDiff = func(f *file) *exec.Cmd {
-		return exec.Command(
-			"code",
-			"--diff", f.left, f.right,
-			"--wait", "--new-window",
-		)
+		return exec.Command("code", "--diff", f.left, f.right, "--wait")
 	}
 	vsCodeMerge = func(f *file) *exec.Cmd {
 		return exec.Command(
-			"code",
-			"--merge", f.left, f.right, f.base, f.output,
-			"--wait", "--new-window",
+			"code", "--merge", f.left, f.right, f.base, f.output, "--wait",
 		)
 	}
 )
