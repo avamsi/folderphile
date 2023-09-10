@@ -6,7 +6,7 @@ $ go install github.com/avamsi/folderphile@latest
 $ folderphile --help
 
 folderphile is a diff / merge editor (depending on whether "base" is set)
-that (flat) compares two folders ("left" and "right").
+that recursively compares two folders ("left" and "right").
 
 Usage:
   folderphile [opts]
