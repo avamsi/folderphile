@@ -87,8 +87,8 @@ func folderphile(opts *options) error {
 		// Assumed to be a 2-way diff.
 		e = vsCodeDiff
 	case opts.base == "" && opts.output != "":
-		// Assumed to be a 3-way diff, where right is the base.
-		base = opts.right
+		// Assumed to be a 3-way diff, where left is the base.
+		base = opts.left
 	case opts.base != "" && opts.output == "":
 		err := errors.New(`required flag "output" not set (required with "base")`)
 		return climate.ErrUsage(err)
