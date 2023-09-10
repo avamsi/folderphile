@@ -2,6 +2,8 @@ package main
 
 import (
 	"bytes"
+	"errors"
+	"io/fs"
 	"os"
 	"path/filepath"
 
@@ -28,8 +30,13 @@ type file struct {
 	initialContent                         []byte
 }
 
-func readFile(path string) []byte {
-	return check.Ok(os.ReadFile(path))
+func readFile(path string) ([]byte, bool) {
+	b, err := os.ReadFile(path)
+	if errors.Is(err, fs.ErrNotExist) {
+		return nil, false
+	}
+	check.Nil(err)
+	return b, true
 }
 
 func newFile(base, left, right, output, relpath string) file {
@@ -39,15 +46,26 @@ func newFile(base, left, right, output, relpath string) file {
 		relpath: relpath,
 		state:   fileUnedited,
 	}
-	f.leftContent = readFile(f.left)
-	f.rightContent = readFile(f.right)
+	var ok bool
+	if f.leftContent, ok = readFile(f.left); !ok {
+		f.left = "/dev/null"
+	}
+	f.rightContent, ok = readFile(f.right)
+	// TODO: we require right to exist for now, but this is not ideal as it's
+	// possible for right to be deleted. folderphile should gracefully allow the
+	// user to create right again, instead of just panicking.
+	check.Truef(ok, "right file %q does not exist", f.right)
 	if base != "" {
 		f.base = filepath.Join(base, relpath)
-		f.baseContent = readFile(f.base)
+		if f.baseContent, ok = readFile(f.base); !ok {
+			f.base = "/dev/null"
+		}
 	}
 	if output != "" {
 		f.output = filepath.Join(output, relpath)
-		f.initialContent = readFile(f.output)
+		f.initialContent, ok = readFile(f.output)
+		// TODO: similar to right above, output need not exist.
+		check.Truef(ok, "output file %q does not exist", f.output)
 	} else {
 		// Assumed to be a 2-way diff, where right is the editable side.
 		check.Truef(base == "", "base is not empty (%q) in a 2-way diff", base)
@@ -58,7 +76,7 @@ func newFile(base, left, right, output, relpath string) file {
 }
 
 func (f *file) updateState() {
-	switch content := readFile(f.output); {
+	switch content, _ := readFile(f.output); {
 	case bytes.Equal(content, f.initialContent):
 		f.state = fileUnedited
 	case bytes.Equal(content, f.leftContent):
