@@ -2,8 +2,10 @@ package main
 
 import (
 	"errors"
+	"io/fs"
 	"os"
 	"os/exec"
+	"path/filepath"
 
 	_ "embed"
 
@@ -11,15 +13,16 @@ import (
 	"github.com/avamsi/ergo/check"
 )
 
-func fileNames(dir string) []string {
-	var files []string
-	for _, d := range check.Ok(os.ReadDir(dir)) {
-		if d.IsDir() {
-			continue
+func fileRelPaths(dir string) (paths []string) {
+	walk := func(path string, d fs.DirEntry, err error) error {
+		if err != nil || d.IsDir() {
+			return err
 		}
-		files = append(files, d.Name())
+		paths = append(paths, path)
+		return nil
 	}
-	return files
+	check.Nil(filepath.WalkDir(dir, walk))
+	return paths
 }
 
 // TODO: remove after go1.21.
@@ -76,7 +79,7 @@ type options struct {
 }
 
 // folderphile is a diff / merge editor (depending on whether "base" is set)
-// that (flat) compares two folders ("left" and "right").
+// that recursively compares two folders ("left" and "right").
 func folderphile(opts *options) error {
 	var (
 		base string
@@ -97,11 +100,11 @@ func folderphile(opts *options) error {
 		base = opts.base
 	}
 	var (
-		names = dedupeInOrder(fileNames(opts.left), fileNames(opts.right))
-		files = make([]file, 0, len(names))
+		paths = dedupeInOrder(fileRelPaths(opts.left), fileRelPaths(opts.right))
+		files = make([]file, 0, len(paths))
 	)
-	for _, name := range names {
-		files = append(files, newFile(base, opts.left, opts.right, opts.output, name))
+	for _, relpath := range paths {
+		files = append(files, newFile(base, opts.left, opts.right, opts.output, relpath))
 	}
 	if tuiEditFiles(files, e) {
 		return nil

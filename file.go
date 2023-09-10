@@ -21,7 +21,7 @@ const (
 
 type file struct {
 	base, left, right, output string // paths (empty if not applicable)
-	name                      string
+	relpath                   string
 	state                     fileState
 
 	baseContent, leftContent, rightContent []byte
@@ -32,21 +32,21 @@ func readFile(path string) []byte {
 	return check.Ok(os.ReadFile(path))
 }
 
-func newFile(base, left, right, output, name string) file {
+func newFile(base, left, right, output, relpath string) file {
 	f := file{
-		left:  filepath.Join(left, name),
-		right: filepath.Join(right, name),
-		name:  name,
-		state: fileUnedited,
+		left:    filepath.Join(left, relpath),
+		right:   filepath.Join(right, relpath),
+		relpath: relpath,
+		state:   fileUnedited,
 	}
 	f.leftContent = readFile(f.left)
 	f.rightContent = readFile(f.right)
 	if base != "" {
-		f.base = filepath.Join(base, name)
+		f.base = filepath.Join(base, relpath)
 		f.baseContent = readFile(f.base)
 	}
 	if output != "" {
-		f.output = filepath.Join(output, name)
+		f.output = filepath.Join(output, relpath)
 		f.initialContent = readFile(f.output)
 	} else {
 		// Assumed to be a 2-way diff, where right is the editable side.

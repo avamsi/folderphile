@@ -87,7 +87,7 @@ func (m model) View() string {
 		case fileEditedOther:
 			state = 'E'
 		}
-		fmt.Fprintf(&b, "%c [%c] %s\n", cursor, state, f.name)
+		fmt.Fprintf(&b, "%c [%c] %s\n", cursor, state, f.relpath)
 	}
 	var (
 		h      = help.New()
