@@ -3,9 +3,9 @@ module github.com/avamsi/folderphile
 go 1.20
 
 require (
-	github.com/avamsi/climate v0.0.0-20230904174558-c5f7a7a25c02
-	github.com/avamsi/climate/cmd/climate v0.0.0-20230904174558-c5f7a7a25c02
-	github.com/avamsi/ergo v0.0.0-20230831040508-becd109c0529
+	github.com/avamsi/climate v0.0.0-20230920213703-fecb96e1d26f
+	github.com/avamsi/climate/cmd/climate v0.0.0-20230920213703-fecb96e1d26f
+	github.com/avamsi/ergo v0.0.0-20230920223117-365fb145277b
 	github.com/charmbracelet/bubbles v0.16.1
 	github.com/charmbracelet/bubbletea v0.24.2
 	github.com/charmbracelet/lipgloss v0.8.0
@@ -14,8 +14,11 @@ require (
 require (
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/containerd/console v1.0.4-0.20230313162750-1ae8d489ac81 // indirect
+	github.com/fatih/color v1.15.0 // indirect
+	github.com/gosuri/uitable v0.0.4 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
+	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/mattn/go-localereader v0.0.1 // indirect
 	github.com/mattn/go-runewidth v0.0.15 // indirect

@@ -12,10 +12,10 @@ Usage:
   folderphile [opts]
 
 Flags:
-  -b, --base    string   base is the common ancestor of left and right; implies merge
-  -l, --left    string   side to compare
-  -r, --right   string   side to compare
-  -o, --output  string   output is the destination
-  -h, --help             help for folderphile
-  -v, --version          version for folderphile
+  -b, --base    string  base is the common ancestor of left and right; implies merge
+  -l, --left    string  side to compare
+  -r, --right   string  side to compare
+  -o, --output  string  output is the destination
+  -h, --help            help for folderphile
+  -v, --version         version for folderphile
 ```

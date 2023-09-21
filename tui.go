@@ -5,7 +5,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/avamsi/ergo/check"
+	"github.com/avamsi/ergo/assert"
 	"github.com/charmbracelet/bubbles/help"
 	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/lipgloss"
@@ -17,7 +17,7 @@ type editor func(f *file) *exec.Cmd
 
 func (e editor) edit(f *file) tea.Cmd {
 	return tea.ExecProcess(e(f), func(err error) tea.Msg {
-		check.Nil(err)
+		assert.Nil(err)
 		f.updateState()
 		return nil
 	})
@@ -160,6 +160,6 @@ func tuiEditFiles(files []file, e editor) bool {
 		p      = tea.NewProgram(model{files: files, editor: e}, tea.WithAltScreen())
 		m, err = p.Run()
 	)
-	check.Nil(err)
+	assert.Nil(err)
 	return !m.(model).aborted
 }

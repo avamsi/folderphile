@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/avamsi/ergo/check"
+	"github.com/avamsi/ergo/assert"
 )
 
 type fileState int
@@ -35,7 +35,7 @@ func readFile(path string) ([]byte, bool) {
 	if errors.Is(err, fs.ErrNotExist) {
 		return nil, false
 	}
-	check.Nil(err)
+	assert.Nil(err)
 	return b, true
 }
 
@@ -54,7 +54,7 @@ func newFile(base, left, right, output, relpath string) file {
 	// TODO: we require right to exist for now, but this is not ideal as it's
 	// possible for right to be deleted. folderphile should gracefully allow the
 	// user to create right again, instead of just panicking.
-	check.Truef(ok, "right file %q does not exist", f.right)
+	assert.Truef(ok, "right file %q does not exist", f.right)
 	if base != "" {
 		f.base = filepath.Join(base, relpath)
 		if f.baseContent, ok = readFile(f.base); !ok {
@@ -65,10 +65,10 @@ func newFile(base, left, right, output, relpath string) file {
 		f.output = filepath.Join(output, relpath)
 		f.initialContent, ok = readFile(f.output)
 		// TODO: similar to right above, output need not exist.
-		check.Truef(ok, "output file %q does not exist", f.output)
+		assert.Truef(ok, "output file %q does not exist", f.output)
 	} else {
 		// Assumed to be a 2-way diff, where right is the editable side.
-		check.Truef(base == "", "base is not empty (%q) in a 2-way diff", base)
+		assert.Truef(base == "", "base is not empty (%q) in a 2-way diff", base)
 		f.output = f.right
 		f.initialContent = f.rightContent
 	}

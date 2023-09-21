@@ -3,14 +3,13 @@ package main
 import (
 	"errors"
 	"io/fs"
-	"os"
 	"os/exec"
 	"path/filepath"
 
 	_ "embed"
 
 	"github.com/avamsi/climate"
-	"github.com/avamsi/ergo/check"
+	"github.com/avamsi/ergo/assert"
 )
 
 func fileRelpaths(dir string) (paths []string) {
@@ -18,10 +17,10 @@ func fileRelpaths(dir string) (paths []string) {
 		if err != nil || d.IsDir() {
 			return err
 		}
-		paths = append(paths, check.Ok(filepath.Rel(dir, path)))
+		paths = append(paths, assert.Ok(filepath.Rel(dir, path)))
 		return nil
 	}
-	check.Nil(filepath.WalkDir(dir, walk))
+	assert.Nil(filepath.WalkDir(dir, walk))
 	return paths
 }
 
@@ -67,9 +66,9 @@ var (
 
 type options struct {
 	// base is the common ancestor of left and right; implies merge
-	base        string `climate:"short"`
-	left, right string `climate:"short,required"` // side to compare
-	output      string `climate:"short"`          // output is the destination
+	base        string `cli:"short"`
+	left, right string `cli:"short,required"` // side to compare
+	output      string `cli:"short"`          // output is the destination
 }
 
 // folderphile is a diff / merge editor (depending on whether "base" is set)
@@ -106,10 +105,10 @@ func folderphile(opts *options) error {
 	return climate.ErrExit(1)
 }
 
-//go:generate go run github.com/avamsi/climate/cmd/climate --out=md.climate
-//go:embed md.climate
+//go:generate go run github.com/avamsi/climate/cmd/climate --out=md.cli
+//go:embed md.cli
 var md []byte
 
 func main() {
-	os.Exit(climate.Run(climate.Func(folderphile), climate.Metadata(md)))
+	climate.RunAndExit(climate.Func(folderphile), climate.WithMetadata(md))
 }
