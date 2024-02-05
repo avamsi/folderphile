@@ -6,8 +6,8 @@ require (
 	github.com/avamsi/climate v0.0.0-20230920213703-fecb96e1d26f
 	github.com/avamsi/climate/cmd/climate v0.0.0-20230920213703-fecb96e1d26f
 	github.com/avamsi/ergo v0.0.0-20230920223117-365fb145277b
-	github.com/charmbracelet/bubbles v0.16.1
-	github.com/charmbracelet/bubbletea v0.24.2
+	github.com/charmbracelet/bubbles v0.18.0
+	github.com/charmbracelet/bubbletea v0.25.0
 	github.com/charmbracelet/lipgloss v0.9.1
 )
 
@@ -26,7 +26,7 @@ require (
 	github.com/muesli/cancelreader v0.2.2 // indirect
 	github.com/muesli/reflow v0.3.0 // indirect
 	github.com/muesli/termenv v0.15.2 // indirect
-	github.com/rivo/uniseg v0.4.4 // indirect
+	github.com/rivo/uniseg v0.4.6 // indirect
 	github.com/sanity-io/litter v1.5.5 // indirect
 	github.com/spf13/cobra v1.7.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
