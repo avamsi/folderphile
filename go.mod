@@ -8,7 +8,7 @@ require (
 	github.com/avamsi/ergo v0.0.0-20230920223117-365fb145277b
 	github.com/charmbracelet/bubbles v0.18.0
 	github.com/charmbracelet/bubbletea v0.27.0
-	github.com/charmbracelet/lipgloss v0.12.1
+	github.com/charmbracelet/lipgloss v0.13.0
 )
 
 require (
