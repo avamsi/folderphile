@@ -7,7 +7,7 @@ require (
 	github.com/avamsi/climate/cmd/climate v0.0.0-20230920213703-fecb96e1d26f
 	github.com/avamsi/ergo v0.0.0-20230920223117-365fb145277b
 	github.com/charmbracelet/bubbles v0.20.0
-	github.com/charmbracelet/bubbletea v1.2.2
+	github.com/charmbracelet/bubbletea v1.2.3
 	github.com/charmbracelet/lipgloss v1.0.0
 )
 
