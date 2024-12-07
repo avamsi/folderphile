@@ -1,7 +1,7 @@
 github.com/avamsi/climate v0.0.0-20241207052824-3e55dcec3f7d h1:SeYGWdyV3sXJv1v7FFljGequW3uwmOp7UcbReVXHQ4s=
 github.com/avamsi/climate v0.0.0-20241207052824-3e55dcec3f7d/go.mod h1:EoU+4pmQSAfTcBQiQkIcU9RWD5vkBM67OdCD/eSlJYM=
-github.com/avamsi/climate/cmd/climate v0.0.0-20231013095157-1a63f483d4ef h1:bu3kc/1E6nBgDvlHYyE08PJWlngIOkyLJ/6D3NuHShs=
-github.com/avamsi/climate/cmd/climate v0.0.0-20231013095157-1a63f483d4ef/go.mod h1:oCuycvHRY/yjqqcTQyusAXRSFY7BsvjBI+fju88PHco=
+github.com/avamsi/climate/cmd/cligen v0.0.0-20241207052824-3e55dcec3f7d h1:usrKMwU+gbd7GFjLH0bClyhH+g+aLx+5B09gokDW28E=
+github.com/avamsi/climate/cmd/cligen v0.0.0-20241207052824-3e55dcec3f7d/go.mod h1:GkMb2zUYLx6rNavus7AT/+yDFmG2kp3t8JLljhHAkWs=
 github.com/avamsi/ergo v0.0.0-20241122172142-bf83205e7399 h1:yq9vGc3XMsD0jP9pcrNvcbRiEhHlQ+aVpfcvw6t4G0w=
 github.com/avamsi/ergo v0.0.0-20241122172142-bf83205e7399/go.mod h1:6of/0tYjGeCDm4XKpjkOHjBkPKGKkqUA2wU8fcvgcXY=
 github.com/aymanbagabas/go-osc52/v2 v2.0.1 h1:HwpRHbFMcZLEVr42D4p7XBqjyuxQH5SMiErDT4WkJ2k=

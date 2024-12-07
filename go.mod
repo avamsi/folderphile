@@ -6,7 +6,7 @@ toolchain go1.23.4
 
 require (
 	github.com/avamsi/climate v0.0.0-20241207052824-3e55dcec3f7d
-	github.com/avamsi/climate/cmd/climate v0.0.0-20231013095157-1a63f483d4ef
+	github.com/avamsi/climate/cmd/cligen v0.0.0-20241207052824-3e55dcec3f7d
 	github.com/avamsi/ergo v0.0.0-20241122172142-bf83205e7399
 	github.com/charmbracelet/bubbles v0.20.0
 	github.com/charmbracelet/bubbletea v1.2.4
