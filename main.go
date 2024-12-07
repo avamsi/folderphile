@@ -24,14 +24,6 @@ func fileRelpaths(dir string) (paths []string) {
 	return paths
 }
 
-// TODO: remove after go1.21.
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func dedupeInOrder(s1, s2 []string) []string {
 	out := make([]string, 0, max(len(s1), len(s2)))
 	for {
