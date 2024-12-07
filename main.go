@@ -45,6 +45,7 @@ func dedupeInOrder(s1, s2 []string) []string {
 	}
 }
 
+// #nosec G204 -- G204 doesn't like the arguments here, but they're safe.
 var (
 	vsCodeDiff = func(f *file) *exec.Cmd {
 		return exec.Command("code", "--diff", f.left, f.right, "--wait")
